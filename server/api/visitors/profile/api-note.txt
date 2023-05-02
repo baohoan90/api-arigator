@@ -1,0 +1,3 @@
+GET: api/visitors/profile
+GET: api/visitors/profile/histories
+POST: api/visitors/profile/change-avarta
