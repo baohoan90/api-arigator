@@ -3,7 +3,7 @@ var config = require('./config');
 const bodyParser = require("body-parser");
 const i18n = require("i18n");
 const cors = require("cors");
-const errorHandler = require('./server/middleware/error.middleware')
+const errorHandler = require('./middleware/error.middleware')
 
 
 const app = express();
@@ -43,7 +43,7 @@ app.get("/", (req, res) => {
 	res.json({ message: "Welcome to arigator application." });
 });
 
-//const db = require("./server/base/models");
+//const db = require("./base/models");
 
 require("./routes.js")(app);
 

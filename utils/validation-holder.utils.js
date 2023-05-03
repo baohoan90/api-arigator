@@ -1,5 +1,5 @@
 const ValidationError = require("../base/errors/validation.error");
-const i18n = require('../../config/i18n.config');
+const i18n = require('../config/i18n.config');
 
 /**
  * ErrorElement

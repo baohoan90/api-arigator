@@ -1,6 +1,6 @@
 var config = require('../config');
 const path = require('path');
-const output = path.join(__dirname, "../server/base/models");
+const output = path.join(__dirname, "../base/models");
 const options = { 
     host: config.db.host,
     port: config.db.port,

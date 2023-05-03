@@ -1,5 +1,5 @@
 const BaseError = require('./base.error');
-const i18n = require('../../../config/i18n.config');
+const i18n = require('../../config/i18n.config');
 
 /**
  * APIError

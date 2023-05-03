@@ -1,10 +1,10 @@
 module.exports = app => {
     // import the routes for '/books'
-    const authRoutes = require('./server/api/auth');
-    const courseRoutes = require('./server/api/course');
-    const teacherRoutes = require('./server/api/teacher');
-    const tutorialRoutes = require('./server/api/tutorial');
-    const bookingRoutes = require('./server/api/visitors/booking');
+    const authRoutes = require('./api/auth');
+    const courseRoutes = require('./api/course');
+    const teacherRoutes = require('./api/teacher');
+    const tutorialRoutes = require('./api/tutorial');
+    const bookingRoutes = require('./api/visitors/booking');
 
     // or ES6 module
     // import bookRoutes from './api/books';

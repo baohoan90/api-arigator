@@ -1,5 +1,5 @@
 const BaseError = require('./base.error');
-const HttpStatusCode = require('../../../constants/http.constant');
+const HttpStatusCode = require('../../constants/http.constant');
 
 class ValidationError extends BaseError {
 

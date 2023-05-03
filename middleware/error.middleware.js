@@ -1,4 +1,4 @@
-const httpConstant = require('../../constants/http.constant')
+const httpConstant = require('../constants/http.constant')
 const APIError = require('../base/errors/api.error')
 const BaseError = require('../base/errors/base.error')
 

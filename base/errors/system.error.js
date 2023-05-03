@@ -1,6 +1,6 @@
 const BaseError = require('./base.error');
-const HttpStatusCode = require('../../../constants/http.constant');
-const i18n = require('../../../config/i18n.config');
+const HttpStatusCode = require('../../constants/http.constant');
+const i18n = require('../../config/i18n.config');
 
 class SystemError extends BaseError {
 
