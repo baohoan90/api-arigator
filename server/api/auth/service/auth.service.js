@@ -1,32 +1,23 @@
 const db = require("../../../base/models");
 const { promisify } = require("util");
 const jwt = require("jsonwebtoken");
-const i18n = require('../../../../config/i18n.config');
-
 const NotFoundError = require("../../../base/errors/not-found.error");
 
 const createToken = id => {
     return jwt.sign({
-            id,
-        },
+        id,
+    },
         process.env.JWT_SECRET, {
-            expiresIn: process.env.JWT_EXPIRES_IN,
-        },
+        expiresIn: process.env.JWT_EXPIRES_IN,
+    },
     );
 };
 
 exports.login = async function (username, password) {
-    // 2) check if user exist and password is correct
+    // 1. check if user exist and password is correct
     const user = await db.models.comUserMst.findOne({ where: { email: username } });
-    
-    //console.log(i18n.__n('MSGI001', 5));
-    //console.log(i18n.__mf('MSGI002', { 0: 'Javascript', 1: 'Meme' } ));
-    
-    /*
-    if (!user || !(await user.correctPassword(password, user.password))) {
-        throw new NotFoundError("Email or Password is wrong");
-    }
-    */
+
+    // 2. compare encrypted password to DB's password
     if (!user || user.password !== password) {
         throw new NotFoundError("MSGE00096");
     }
@@ -44,33 +35,22 @@ exports.login = async function (username, password) {
 
 };
 
-exports.signup = async (req, res, next) => {
-    try {
-        const user = await User.create({
-            name: req.body.name,
-            email: req.body.email,
-            password: req.body.password,
-            passwordConfirm: req.body.passwordConfirm,
-            role: req.body.role,
-        });
+exports.signUp = async (dto) => {
 
-        const token = createToken(user.id);
+    const user = await db.models.comUserMst.create(dto);
 
-        user.password = undefined;
+    const token = createToken(user.id);
 
-        res.status(201).json({
-            status: "success",
-            token,
-            data: {
-                user,
-            },
-        });
-    } catch (err) {
-        next(err);
+    user.password = undefined;
+
+    return {
+        user: user,
+        token: token,
     }
+
 };
 
-exports.protect = async (req, res, next) => {
+exports.verify = async (req, res, next) => {
     try {
         // 1) check if the token is there
         let token;
@@ -97,7 +77,7 @@ exports.protect = async (req, res, next) => {
         const decode = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
 
         // 3) check if the user is exist (not deleted)
-        const user = await User.findById(decode.id);
+        const user = await db.models.comUserMst.findById(decode.id);
         if (!user) {
             return next(
                 new AppError(401, "fail", "This user is no longer exist"),

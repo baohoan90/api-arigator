@@ -1,12 +1,20 @@
 const BaseError = require('./base.error');
-const HttpStatusCode = require('../../../constants/http.constant');
+const i18n = require('../../../config/i18n.config');
 
-//free to extend the BaseError
+/**
+ * APIError
+ * @author developer
+ */
 class APIError extends BaseError {
-    constructor(name,
-        statusCode = HttpStatusCode.INTERNAL_SERVER,
-        description = 'Internal server error', isOperational = true) {
-        super(name, statusCode, description, isOperational);
+
+    constructor(code = 'APP_ERROR', statusCode = 400, messageId, ...params) {
+        super({
+            code: code,
+            type: BaseError.type.APP_NAME,
+            statusCode: statusCode,
+            message: i18n.__mf(messageId, Object.assign({}, params)),
+            isOperational: true
+        });
     }
 }
 

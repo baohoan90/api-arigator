@@ -1,8 +1,9 @@
+var config = require('../config');
 const path = require('path');
 const output = path.join(__dirname, "../server/base/models");
 const options = { 
-    host: '127.0.0.1', //localhost
-    port: '5433',
+    host: config.db.host,
+    port: config.db.port,
     directory: output, 
     caseFile: 'k', 
     caseModel: 'c', 
@@ -69,9 +70,9 @@ const mysql = {
 
 // postgres
 const postgres = {
-  dbname: 'arigator_dev',
-  user: 'postgres',
-  pass: 'postgres',
+  dbname: config.db.name,
+  user: config.db.username,
+  pass: config.db.password,
   options: { dialect: 'postgres' },
   autoOptions: { dialect: 'postgres', ...options }
 };

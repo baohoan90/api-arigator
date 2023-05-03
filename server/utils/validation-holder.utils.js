@@ -1,13 +1,15 @@
 const ValidationError = require("../base/errors/validation.error");
+const i18n = require('../../config/i18n.config');
 
 /**
  * ErrorElement
  */
 class ErrorElement {
 
-    constructor(type, field, msg) {
+    constructor(type, path, msg) {
         this.type = type;
-        this.field = field;
+        //this.value = value;
+        this.path = path;
         this.msg = msg;
     }
 }
@@ -17,16 +19,22 @@ class ErrorElement {
  */
 class ValidationHolder {
 
-    errors = [];
+    static _instance;
+
+    constructor() {
+        this.errors = [];
+     }
 
     /**
      * addError
      * @param {String} type 
-     * @param {String} field 
+     * @param {String} path
      * @param {String} msg 
      */
-    static addError(type, field, msg) {
-        errors.add(new ErrorElement(type, field, msg));
+    static addError(element, messageId, params) {
+        const message = i18n.__mf(messageId, Object.assign({}, params));
+        const errorElement = new ErrorElement('field', element, message);
+        this._instance.errors.push(errorElement);
     }
 
     /**
@@ -34,7 +42,10 @@ class ValidationHolder {
      * @returns 
      */
     static create() {
-        return new ValidationHolder();
+        if (this._instance == null) {
+            this._instance = new ValidationHolder();
+        }
+        return this._instance;
     }
 
     /**
@@ -42,7 +53,7 @@ class ValidationHolder {
      * @returns True/False
      */
     static hasError() {
-        return errors != null && errors.length > 0;
+        return this._instance != null && this._instance.errors.length > 0;
     }
 
     /**
@@ -50,14 +61,10 @@ class ValidationHolder {
      */
     static checkAndThrow() {
         if (this.hasError()) {
-            let temps = errors.slice(0);
-            this.clear();
+            let temps = this._instance.errors;
+            this._instance = null;
             throw new ValidationError(temps);
         }
-    }
-
-    static clear() {
-        errors = [];
     }
 }
 

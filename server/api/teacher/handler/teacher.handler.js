@@ -39,15 +39,12 @@ exports.findAll = (req, res) => {
     };
 
     const pageable = Pageable.of(req);
-    
+
     teacherService.findAll(condition, pageable)
-        .then(data => {
-            res.send(pageable.build(data));
-        })
-        .catch(err => {
-            res.status(500).send({
-                message:
-                    err.message || 'Some error occurred while retrieving tutorials.'
-            });
-        });
+    .then(data => {
+        res.send(pageable.build(data));
+    })
+    .catch(error => {
+        next(error)
+    });
 };

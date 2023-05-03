@@ -1,9 +1,10 @@
+const httpConstant = require('../../constants/http.constant')
 const APIError = require('../base/errors/api.error')
 const BaseError = require('../base/errors/base.error')
 
 /**
  * ErrorHandler
- * @author author.name
+ * @author developer
  */
 class ErrorHandler {
 
@@ -21,7 +22,7 @@ class ErrorHandler {
         delete newError.meta
 
         return {
-            success: false,
+            //success: false,
             status: newError.statusCode,
             message: newError.message,
             details: newError.details,
@@ -29,13 +30,13 @@ class ErrorHandler {
             ...overrides,
             //path: newError.path,
             /*            
-            error: {
-                ...newError,
-                stack: stackTrace.stack
-            },
-            success: false,
-            ...overrides
-*/
+                error: {
+                    ...newError,
+                    stack: stackTrace.stack
+                },
+                success: false,
+                ...overrides
+            */
         }
     }
 
@@ -47,15 +48,15 @@ class ErrorHandler {
         }
     }
 
-    sendResponse(response, payload, statusCode = 200, context = {}) {
+    sendResponse(response, payload, statusCode = httpConstant.OK) {
         if (payload instanceof BaseError) {
-            const httpCode = payload.statusCode || 500
+            const httpCode = payload.statusCode || httpConstant.INTERNAL_SERVER
             return response.status(httpCode).json(formatError(payload))
         }
 
         if (payload instanceof Error) {
             const newError = createError(payload)
-            const code = newError.statusCode || 500
+            const code = newError.statusCode || httpConstant.INTERNAL_SERVER
             return res.status(code).json(formatError(newError))
         }
 
@@ -64,17 +65,15 @@ class ErrorHandler {
 
     async handleError(request, response, error) {
         const { analytics = {} } = error.meta || {};
-        // logging for analytics
-        console.log({ analytics });
     
         if (this.isTrustedError(error)) {
-          const statusCode = error.statusCode || 500
+          const statusCode = error.statusCode || httpConstant.INTERNAL_SERVER
           return response.status(statusCode).json(this.formatError(error))
         }
     
         if (error instanceof Error) {
           const newError = this.createError(error)
-          const statusCode = newError.statusCode || 500
+          const statusCode = newError.statusCode || httpConstant.INTERNAL_SERVER
           return response.status(statusCode).json(this.formatError(newError))
         }
     

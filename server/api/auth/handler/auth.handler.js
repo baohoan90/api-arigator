@@ -1,15 +1,14 @@
 const authService = require('../service/auth.service');
-const httpConstant = require('../../../../constants/http.constant');
 const { validationResult } = require('express-validator');
 
-const APIError = require("../../../base/errors/api.error");
 const ValidationError = require('../../../base/errors/validation.error');
 const ValidationHolder = require('../../../utils/validation-holder.utils');
 
 /**
  * login
- * @param {String} email
- * @param {String} password
+ * @param {Object} req
+ * @param {Object} res
+ * @param {Object} next
  */
 exports.login = (req, res, next) => {
 
@@ -18,19 +17,50 @@ exports.login = (req, res, next) => {
     if (!errors.isEmpty()) {
         throw new ValidationError(errors.array());
     }
-
-    const { email, password } = req.body;
-
+/*
     ValidationHolder.create();
-
-    // 1) Check if email and password exist
-    if (!email || !password) {
-        throw new APIError('email or password', httpConstant.BAD_REQUEST, true, "Please provide email or password");
-    }
+    ValidationHolder.addError('username', 'MSGE00012', ['username', 'min', 'max']);
+    ValidationHolder.addError('password', 'MSGE00016', ['min']);
+    ValidationHolder.checkAndThrow();
+*/
+    const { email, password } = req.body;
 
     authService.login(email, password).then(data => {
         res.send(data);
     }).catch(error => {
         next(error)
     });
+};
+
+/**
+ * signUp - Register a new user
+ * @param {Object} req
+ * @param {Object} res
+ * @param {Object} next
+ */
+exports.signUp = (req, res, next) => {
+    
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        throw new ValidationError(errors.array());
+    }
+    /*
+    {
+        name: body.name,
+        email: body.email,
+        password: body.password,
+        passwordConfirm: body.passwordConfirm,
+        role: body.role,
+    }
+    */
+    authService.signUp(req.body).then(data => {
+        res.send(data);
+    }).catch(error => {
+        next(error)
+    });
+};
+
+exports.verify = (req, res, next) => {
+
 };

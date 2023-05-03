@@ -1,4 +1,5 @@
 const express = require("express");
+var config = require('./config');
 const bodyParser = require("body-parser");
 const i18n = require("i18n");
 const cors = require("cors");
@@ -8,6 +9,7 @@ const errorHandler = require('./server/middleware/error.middleware')
 const app = express();
 
 const dotenv = require('dotenv');
+
 dotenv.config({
 	path: './config/config.env'
 });
@@ -66,7 +68,7 @@ process.on('uncaughtException', (error) => {
 */
 
 // set port, listen for requests
-const PORT = process.env.PORT || 8080;
+const PORT = config.port || 8080;
 app.listen(PORT, () => {
 	console.log(`Server is running on port ${PORT}.`);
 });
