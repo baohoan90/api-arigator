@@ -9,6 +9,7 @@
     <li style="color: yellow">npm install -g express sequelize pg pg-hstore cors --save</li>
     <li style="color: yellow">npm install jsonwebtoken</li>
     <li style="color: yellow">npm install --save express-validator</li>
+    <li style="color: yellow">npm install i18n --save</li>
 </ul>
 
 ## 3. Tools

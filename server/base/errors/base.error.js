@@ -34,14 +34,13 @@ class BaseError extends Error {
         */
 
        this.status = options.statusCode,
-       this.name = options.type;
-       this.path = "https://ainghia.com.vn/api/20230102100001",
+       this.name = options.type; 
        this.message = options.message;
        this.details = options.errors;
        this.isOperational = options.isOperational;
        this.statusCode = options.statusCode;
     }
-}
+}  
 
 module.exports = BaseError;
 

@@ -24,7 +24,7 @@ class ErrorHandler {
             success: false,
             status: newError.statusCode,
             message: newError.message,
-            details: [newError],
+            details: newError.details,
             stack: stackTrace.stack,
             ...overrides,
             //path: newError.path,

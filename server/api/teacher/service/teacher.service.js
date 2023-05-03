@@ -1,7 +1,5 @@
 const db = require("../../../base/models");
 const StringUtils = require("../../../utils/string.utils");
-
-const otrTeacherInfoMst = db.OtrTeacherInfoMst; // DAO
 const Op = db.Sequelize.Op;
 
 /**
@@ -32,7 +30,7 @@ exports.findAll = async function (dto, pageable) {
 
     const {limit, offset } = pageable;
 
-    return await otrTeacherInfoMst.findAndCountAll({ where: condition, limit, offset });
+    return await db.models.otrTeacherInfoMst.findAndCountAll({ where: condition, limit, offset });
 }
 
 /**

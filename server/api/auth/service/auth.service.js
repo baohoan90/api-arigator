@@ -1,15 +1,15 @@
 const db = require("../../../base/models");
 const { promisify } = require("util");
 const jwt = require("jsonwebtoken");
+const i18n = require('../../../../config/i18n.config');
+
 const NotFoundError = require("../../../base/errors/not-found.error");
 
 const createToken = id => {
-    return jwt.sign(
-        {
+    return jwt.sign({
             id,
         },
-        process.env.JWT_SECRET,
-        {
+        process.env.JWT_SECRET, {
             expiresIn: process.env.JWT_EXPIRES_IN,
         },
     );
@@ -18,14 +18,17 @@ const createToken = id => {
 exports.login = async function (username, password) {
     // 2) check if user exist and password is correct
     const user = await db.models.comUserMst.findOne({ where: { email: username } });
-
+    
+    //console.log(i18n.__n('MSGI001', 5));
+    //console.log(i18n.__mf('MSGI002', { 0: 'Javascript', 1: 'Meme' } ));
+    
     /*
     if (!user || !(await user.correctPassword(password, user.password))) {
         throw new NotFoundError("Email or Password is wrong");
     }
     */
     if (!user || user.password !== password) {
-        throw new NotFoundError("Email or Password is wrong");
+        throw new NotFoundError("MSGE00096");
     }
 
     // 3) All correct, send jwt to client
