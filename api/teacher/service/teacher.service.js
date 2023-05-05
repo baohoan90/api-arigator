@@ -1,5 +1,6 @@
+const _ = require("lodash");
 const db = require("../../../base/models");
-const StringUtils = require("../../../utils/string.utils");
+const Pageable = require("../../../utils/pageable.utils");
 const Op = db.Sequelize.Op;
 
 /**
@@ -20,17 +21,19 @@ exports.create = async function (dto) {
 
 
 // Retrieve all Tutorials from the database.
-exports.findAll = async function (dto, pageable) {
+exports.search = async function (dto, pageable) {
 
-    var condition = StringUtils.isNotEmpty(dto.teacherName) ? {
+    var condition = !_.isEmpty(dto.teacherName) ? {
         teacherName: {
             [Op.iLike]: `%${dto.teacherName}%`
         }
     } : null;
 
-    const {limit, offset } = pageable;
+    const { limit, offset } = pageable;
 
-    return await db.models.otrTeacherInfoMst.findAndCountAll({ where: condition, limit, offset });
+    const data = await db.models.otrTeacherInfoMst.findAndCountAll({ where: condition, limit, offset });
+
+    return Pageable.build(pageable, data);
 }
 
 /**

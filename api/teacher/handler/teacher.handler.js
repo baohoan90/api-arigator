@@ -28,21 +28,19 @@ exports.create = (req, res) => {
 };
 
 /**
- * findAll
+ * search
  * @param {Object} req 
  * @param {Object} res 
  */
-exports.findAll = (req, res) => {
+exports.search = (req, res) => {
     // Perform validation here
     let condition = {
         teacherName: req.query.teacherName
     };
 
-    const pageable = Pageable.of(req);
-
-    teacherService.findAll(condition, pageable)
+    teacherService.search(condition, Pageable.of(req))
     .then(data => {
-        res.send(pageable.build(data));
+        res.send(data);
     })
     .catch(error => {
         next(error)

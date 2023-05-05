@@ -11,8 +11,8 @@ const teacherRoutes = express.Router();
   // Create a new Tutorial
   teacherRoutes.post("/", teacherHandlers.create);
   
-  // Retrieve all Tutorials
-  teacherRoutes.get("/", teacherHandlers.findAll);
+  // Search all Tutorials
+  teacherRoutes.get("/", teacherHandlers.search);
 
   // export teacherRoutes 
   module.exports = teacherRoutes;

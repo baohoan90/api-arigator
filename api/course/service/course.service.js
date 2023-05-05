@@ -1,6 +1,6 @@
+var _ = require("lodash");
 const db = require("../../../base/models");
 const CourseInfo = require("../models/course-info");
-const StringUtils = require("../../../utils/string.utils");
 
 /**
  * findTutorialByTeacher
@@ -8,7 +8,7 @@ const StringUtils = require("../../../utils/string.utils");
  */
 exports.findTutorialByTeacher = async function (dto) {
     
-    if (StringUtils.isEmpty(dto.teacherCode)) {
+    if (_.isEmpty(dto.teacherCode)) {
         throw new Error('teacherCode cannot be empty!');
     }
     

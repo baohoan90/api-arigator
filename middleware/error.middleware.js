@@ -1,4 +1,4 @@
-const httpConstant = require('../constants/http.constant')
+const HttpConstant = require('../constants/http.constant')
 const APIError = require('../base/errors/api.error')
 const BaseError = require('../base/errors/base.error')
 
@@ -48,15 +48,15 @@ class ErrorHandler {
         }
     }
 
-    sendResponse(response, payload, statusCode = httpConstant.OK) {
+    sendResponse(response, payload, statusCode = HttpConstant.OK) {
         if (payload instanceof BaseError) {
-            const httpCode = payload.statusCode || httpConstant.INTERNAL_SERVER
+            const httpCode = payload.statusCode || HttpConstant.INTERNAL_SERVER
             return response.status(httpCode).json(formatError(payload))
         }
 
         if (payload instanceof Error) {
             const newError = createError(payload)
-            const code = newError.statusCode || httpConstant.INTERNAL_SERVER
+            const code = newError.statusCode || HttpConstant.INTERNAL_SERVER
             return res.status(code).json(formatError(newError))
         }
 
@@ -67,13 +67,13 @@ class ErrorHandler {
         const { analytics = {} } = error.meta || {};
     
         if (this.isTrustedError(error)) {
-          const statusCode = error.statusCode || httpConstant.INTERNAL_SERVER
+          const statusCode = error.statusCode || HttpConstant.INTERNAL_SERVER
           return response.status(statusCode).json(this.formatError(error))
         }
     
         if (error instanceof Error) {
           const newError = this.createError(error)
-          const statusCode = newError.statusCode || httpConstant.INTERNAL_SERVER
+          const statusCode = newError.statusCode || HttpConstant.INTERNAL_SERVER
           return response.status(statusCode).json(this.formatError(newError))
         }
     

@@ -1,21 +1,35 @@
 class Pageable {
 
-    constructor(page = 1, limit = 10, sort) {
-        this.limit = parseInt(limit);
-        this.page = parseInt(page) <= 0 ? 1 : parseInt(page);
-        this.offset = (this.page - 1) * this.limit;
-        this.sort = sort;
-    }
-
+    /**
+     * 
+     * @param {*} req 
+     * @returns 
+     */
     static of(req) {
-        const { page, limit, sort } = req.query;
-        return new Pageable(page, limit, sort);
+        let { page, limit, sort } = req.query;
+
+        let info = {};
+        page = parseInt(page || 0);
+        limit = parseInt(limit || 10);
+
+        info.sort = sort;
+        info.limit = limit;
+        info.page = page <= 0 ? 1 : page;
+        info.offset = (info.page - 1) * info.limit;
+        
+        return info;
     }
 
-    build(data) {
-        const page = this.page;
+    /**
+     * 
+     * @param {*} pageable 
+     * @param {*} data 
+     * @returns 
+     */
+    static build(pageable, data) {
+        const page = pageable.page;
         const { count: totalItems, rows: items } = data;
-        const totalPages = Math.ceil(totalItems / this.limit);
+        const totalPages = Math.ceil(totalItems / pageable.limit);
         return { page, totalPages, totalItems, items };
     };
 }

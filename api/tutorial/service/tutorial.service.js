@@ -1,5 +1,5 @@
+const _ = require("lodash");
 const db = require("../../../base/models");
-const StringUtils = require("../../../utils/string.utils");
 
 const tstTutorialInfoMst = db.TstTutorialInfoMst; // DAO
 const Op = db.Sequelize.Op;
@@ -25,7 +25,7 @@ exports.create = async function (tutorial) {
  */
 exports.findAll = async function (dto) {
 
-    var condition = StringUtils.isNotEmpty(dto.tutorialName) ? {
+    var condition = !_.isEmpty(dto.tutorialName) ? {
         tutorialName: {
             [Op.iLike]: `%${dto.tutorialName}%`
         }

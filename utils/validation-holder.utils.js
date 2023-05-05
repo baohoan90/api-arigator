@@ -23,7 +23,7 @@ class ValidationHolder {
 
     constructor() {
         this.errors = [];
-     }
+    }
 
     /**
      * addError

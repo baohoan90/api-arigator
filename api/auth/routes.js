@@ -1,6 +1,6 @@
 const express = require('express');
 const authRoutes = express.Router();
-const { validate } = require('./validator/login.validator')
+const { validate } = require('./validator/auth.validator')
 
 // or ES6
 // import { Router as booksRoutes } from 'express';
