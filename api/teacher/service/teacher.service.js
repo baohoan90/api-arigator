@@ -8,15 +8,7 @@ const Op = db.Sequelize.Op;
  * @param {Object} dto 
  */
 exports.create = async function (dto) {
-    if (dto == null) {
-        throw new Error('Teacher cannot be empty!')
-    }
-
-    try {
-        return await otrTeacherInfoMst.create(dto);
-    } catch (e) {
-        throw new Error(e.message)
-    }
+    return await otrTeacherInfoMst.create(dto);
 }
 
 
@@ -31,7 +23,7 @@ exports.search = async function (dto, pageable) {
 
     const { limit, offset } = pageable;
 
-    const data = await db.models.otrTeacherInfoMst.findndCountAll({
+    const data = await db.models.otrTeacherInfoMst.findAndCountAll({
         where: condition,
         limit,
         offset,

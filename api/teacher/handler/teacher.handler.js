@@ -42,7 +42,5 @@ exports.search = (req, res, next) => {
     .then(data => {
         res.send(data);
     })
-    .catch(error => {
-        next(error)
-    });
+    .catch(error => next(error));
 };

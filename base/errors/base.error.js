@@ -22,16 +22,6 @@ class BaseError extends Error {
         if (!options.statusCode) {
             throw new Error("BaseError: error code required.");
         }
-        /*
-        this.name = "ApplicationError";
-        this.type = options.type;
-        this.code = options.code;
-        this.message = options.message;
-        this.errors = options.errors;
-        this.meta = options.meta;
-        this.isOperational = options.isOperational;
-        this.statusCode = options.statusCode;
-        */
 
        this.status = options.statusCode,
        this.name = options.type; 
@@ -47,8 +37,7 @@ module.exports = BaseError;
 /*
     HTTP_STATUS: 400
     {
-        "status": 400,
-        "name": "BAD_REQUEST",
+        "success": false,
         "path": "https://example.net/validation-error",
         "message": "The request parameter failed to validate",
         details: [ 
@@ -65,10 +54,10 @@ module.exports = BaseError;
 */
 
 /*
+HTTP_STATUS: 500
 {
     {
-        "status": 500,
-        "name": "INTERNAL_SERVER_ERROR",
+        "success": false,
         "path": "https://ainghia.com/docs/api/500",
         "message": "A system error occurs, please contact administrator via email address: hoan.lam@kmail.com",
     }
@@ -78,8 +67,7 @@ module.exports = BaseError;
 /*
 HTTP_STATUS: 200
 {
-    "status": 200,
-    "name": "SUCCESS",
+    "success": true,
     "content": {
 
         "page": 2,
@@ -102,7 +90,6 @@ HTTP_STATUS: 200
                 "telephone": "098133452"
             ]              
         ]
-        
     }
 }
 */
@@ -111,8 +98,7 @@ HTTP_STATUS: 200
 /*
 HTTP_STATUS: 200
 {
-    "status": 200,
-    "name": "SUCCESS",
+    "success": true,
     "content": {
 
         "user": {

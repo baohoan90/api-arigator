@@ -32,7 +32,7 @@ app.get("/", (req, res) => {
 
 require("./routes.js")(app);
 
-
+// Handle Error
 app.use(async (error, request, response, next) => {
 	if (!errorHandler.isTrustedError(error)) {
 		next(error);
