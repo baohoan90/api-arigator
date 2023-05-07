@@ -4,13 +4,13 @@ const i18n = require('../../config/i18n.config');
 
 class SystemError extends BaseError {
 
-  constructor(messageId, ...params) {
+  constructor(error) {
     super({
       code: 'INTERNAL_SERVER_ERROR',
       type: BaseError.type.APP_NAME,
       statusCode: HttpStatusCode.INTERNAL_SERVER,
-      message: i18n.__mf(messageId, Object.assign({}, params) ),
-      isOperational: true
+      message: error.message,
+      isOperational: true,
     });
   }
 }

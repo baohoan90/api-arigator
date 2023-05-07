@@ -17,10 +17,14 @@ exports.findAll = (req, res) => {
         .then(data => {
             res.send(data);
         })
-        .catch(err => {
+        .catch(error => {
+            next(error);
+            
+            /* 
             res.status(500).send({
                 message:
                     err.message || 'Some error occurred while retrieving tutorials.'
             });
+            */
         });
 };

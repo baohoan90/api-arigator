@@ -1,17 +1,18 @@
-var _ = require("lodash");
+const _ = require("lodash");
 const db = require("../../../base/models");
 const CourseInfo = require("../models/course-info");
+const sqlTemplate = require("../../../utils/sql-template.utils");
 
 /**
  * findTutorialByTeacher
  * @param {Object} teacher 
  */
 exports.findTutorialByTeacher = async function (dto) {
-    
+
     if (_.isEmpty(dto.teacherCode)) {
         throw new Error('teacherCode cannot be empty!');
     }
-    
+
     let SQL = `
         SELECT 
             otim.teacher_id,
@@ -27,13 +28,20 @@ exports.findTutorialByTeacher = async function (dto) {
             FROM otr_teacher_info_mst otim 
         INNER JOIN tst_tutorial_info_mst ttim ON otim.teacher_code = ttim.teacher_code
         WHERE otim.teacher_code = '${dto.teacherCode}'`;
-    
-    try {    
+
+    let SQL_COUNT = `
+        SELECT COUNT(*) FROM ('${SQL}')
+    `;
+
+ //   const templateSQL = sqlTemplate.parse(SQL, dto);
+ //   const templateSQLCount = sqlTemplate.parse(SQL, dto);
+
+    try {
         let tutorialList = await db.sequelize.query(SQL, {
-                type: db.Sequelize.QueryTypes.SELECT,
-                mapToModel: true,
-                model: CourseInfo
-            }
+            type: db.Sequelize.QueryTypes.SELECT,
+            mapToModel: true,
+            model: CourseInfo
+        }
         );
         return tutorialList;
     } catch (e) {

@@ -43,6 +43,7 @@
     <li><span style="color: green">AUTH: </span>https://github.com/MoathShraim/Nodejs-rest-api-project-structure-Express/tree/master/controllers</li>
     <li><span style="color: green">Project Structure: </span>https://www.codemzy.com/blog/nodejs-file-folder-structure</li>
     <li>https://www.freecodecamp.org/news/build-web-apis-with-nestjs-beginners-guide/</li>
+    <li>https://github.com/RajaJaganathan/express-error-handling/blob/master/src/lib/api/error/applicationError.js</li>
 </ul>
 ### Project Structure
 

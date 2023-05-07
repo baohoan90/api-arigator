@@ -1,7 +1,6 @@
 const express = require("express");
 var config = require('./config');
 const bodyParser = require("body-parser");
-const i18n = require("i18n");
 const cors = require("cors");
 const errorHandler = require('./middleware/error.middleware')
 
@@ -11,22 +10,10 @@ const app = express();
 const dotenv = require('dotenv');
 
 dotenv.config({
-	path: './config/config.env'
+	path: './config/settings.env'
 });
 
 app.use(bodyParser.json())
-
-//app.use(expressValidator());
-/*
-app.use(i18n.init);
-
-i18n.configure({
-	defaultLocale: 'en',
-	locales: ['en', 'vi'],
-	directory: __dirname + '/locales',
-	cookie: 'lang',
-});
-*/
 
 app.use(cors({
 	origin: "http://localhost:8080"
@@ -43,9 +30,8 @@ app.get("/", (req, res) => {
 	res.json({ message: "Welcome to arigator application." });
 });
 
-//const db = require("./base/models");
-
 require("./routes.js")(app);
+
 
 app.use(async (error, request, response, next) => {
 	if (!errorHandler.isTrustedError(error)) {
@@ -53,6 +39,7 @@ app.use(async (error, request, response, next) => {
 	}
 	await errorHandler.handleError(request, response, error);
 });
+
 
 /*
 process.on('unhandledRejection', (reason, promise) => {

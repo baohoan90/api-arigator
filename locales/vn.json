@@ -128,5 +128,6 @@
 	"MSGE00127": "Một phương thức được yêu cầu không được phép trên trang đã chỉ định.",
 	"MSGE00128": "Không thể xử lý do thông số đầu vào không chính xác.",
 	"MSGE00129": "Bạn bị cấm truy cập tài nguyên được chỉ định.",
-	"MSGE00130": "Không tìm thấy trang được chỉ định."
+	"MSGE00130": "Không tìm thấy trang được chỉ định.",
+	"MSGE0001": "MSGE0001"
 }

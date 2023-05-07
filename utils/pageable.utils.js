@@ -8,16 +8,16 @@ class Pageable {
     static of(req) {
         let { page, limit, sort } = req.query;
 
-        let info = {};
+        let option = {};
         page = parseInt(page || 0);
         limit = parseInt(limit || 10);
 
-        info.sort = sort;
-        info.limit = limit;
-        info.page = page <= 0 ? 1 : page;
-        info.offset = (info.page - 1) * info.limit;
+        option.sort = sort; // [['id', 'DESC']]
+        option.limit = limit;
+        option.page = page <= 0 ? 1 : page;
+        option.offset = (option.page - 1) * option.limit;
         
-        return info;
+        return option;
     }
 
     /**

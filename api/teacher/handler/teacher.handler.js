@@ -32,7 +32,7 @@ exports.create = (req, res) => {
  * @param {Object} req 
  * @param {Object} res 
  */
-exports.search = (req, res) => {
+exports.search = (req, res, next) => {
     // Perform validation here
     let condition = {
         teacherName: req.query.teacherName

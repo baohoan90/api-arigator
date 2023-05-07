@@ -31,7 +31,14 @@ exports.search = async function (dto, pageable) {
 
     const { limit, offset } = pageable;
 
-    const data = await db.models.otrTeacherInfoMst.findAndCountAll({ where: condition, limit, offset });
+    const data = await db.models.otrTeacherInfoMst.findndCountAll({
+        where: condition,
+        limit,
+        offset,
+        order: [
+            ['updatedAt', 'DESC']
+        ]
+    });
 
     return Pageable.build(pageable, data);
 }

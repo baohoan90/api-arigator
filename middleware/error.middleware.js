@@ -1,6 +1,7 @@
 const HttpConstant = require('../constants/http.constant')
 const APIError = require('../base/errors/api.error')
 const BaseError = require('../base/errors/base.error')
+const SystemError = require('../base/errors/system.error')
 
 /**
  * ErrorHandler
@@ -22,14 +23,14 @@ class ErrorHandler {
         delete newError.meta
 
         return {
-            //success: false,
+            success: false,
             status: newError.statusCode,
             message: newError.message,
             details: newError.details,
             stack: stackTrace.stack,
             ...overrides,
-            //path: newError.path,
-            /*            
+            /*
+            path: newError.path,            
                 error: {
                     ...newError,
                     stack: stackTrace.stack
@@ -63,23 +64,21 @@ class ErrorHandler {
         return res.status(statusCode).json(formatResponse(payload))
     }
 
-    async handleError(request, response, error) {
-        const { analytics = {} } = error.meta || {};
-    
+    async handleError(request, response, error) {    
         if (this.isTrustedError(error)) {
           const statusCode = error.statusCode || HttpConstant.INTERNAL_SERVER
           return response.status(statusCode).json(this.formatError(error))
         }
     
         if (error instanceof Error) {
-          const newError = this.createError(error)
+          const newError = new SystemError(error);
           const statusCode = newError.statusCode || HttpConstant.INTERNAL_SERVER
           return response.status(statusCode).json(this.formatError(newError))
         }
     
         const unknownError = new APIError('Unknown')
     
-        return this.sendResponse(response, unknownError, error.statusCode);
+        return response.status(statusCode).json(this.formatError(unknownError))
     }
 
     /**
