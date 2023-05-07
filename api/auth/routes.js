@@ -12,6 +12,8 @@ const authHandlers = require('./handler/auth.handler');
 // Retrieve all Tutorials
 authRoutes.post("/login", validate.validateLogin(), authHandlers.login);
 
+authRoutes.post("/verify",  authHandlers.verify);
+
 // export authRoutes 
 module.exports = authRoutes;
 

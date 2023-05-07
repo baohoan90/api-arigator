@@ -7,11 +7,11 @@ const i18n = require('../../config/i18n.config');
  */
 class APIError extends BaseError {
 
-    constructor(code = 'APP_ERROR', statusCode = 400, messageId, ...params) {
+    constructor(statusCode, messageId, ...params) {
         super({
-            code: code,
+            code: 'APP_ERROR',
             type: BaseError.type.APP_NAME,
-            statusCode: statusCode,
+            statusCode: statusCode || 500,
             message: i18n.__mf(messageId, Object.assign({}, params)),
             isOperational: true
         });

@@ -17,19 +17,19 @@ exports.login = (req, res, next) => {
     if (!errors.isEmpty()) {
         throw new ValidationError(errors.array());
     }
-/*
-    ValidationHolder.create();
-    ValidationHolder.addError('username', 'MSGE00012', ['username', 'min', 'max']);
-    ValidationHolder.addError('password', 'MSGE00016', ['min']);
-    ValidationHolder.checkAndThrow();
-*/
+    /*
+        ValidationHolder.create();
+        ValidationHolder.addError('username', 'MSGE00012', ['username', 'min', 'max']);
+        ValidationHolder.addError('password', 'MSGE00016', ['min']);
+        ValidationHolder.checkAndThrow();
+    */
     const { email, password } = req.body;
 
-    authService.login(email, password).then(data => {
+    authService.login(email, password)
+    .then(data => {
         res.send(data);
-    }).catch(error => {
-        next(error)
-    });
+    })
+    .catch(error => next(error));
 };
 
 /**
@@ -39,7 +39,7 @@ exports.login = (req, res, next) => {
  * @param {Object} next
  */
 exports.signUp = (req, res, next) => {
-    
+
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -54,13 +54,14 @@ exports.signUp = (req, res, next) => {
         role: body.role,
     }
     */
-    authService.signUp(req.body).then(data => {
-        res.send(data);
-    }).catch(error => {
-        next(error)
-    });
+    authService.signUp(req.body)
+    .then(data => res.send(data))
+    .catch(error => next(error));
 };
 
 exports.verify = (req, res, next) => {
 
+    authService.verifyToken(req.headers.authorization)
+    .then(data => res.send(data))
+    .catch(error => next(error));
 };

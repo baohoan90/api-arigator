@@ -1,5 +1,6 @@
 const express = require('express');
 const teacherRoutes = express.Router();
+const authentication = require('../../middleware/auth.middleware')
 
   // or ES6
   // import { Router as booksRoutes } from 'express';
@@ -12,7 +13,7 @@ const teacherRoutes = express.Router();
   teacherRoutes.post("/", teacherHandlers.create);
   
   // Search all Tutorials
-  teacherRoutes.get("/", teacherHandlers.search);
+  teacherRoutes.get("/", authentication.verify, teacherHandlers.search);
 
   // export teacherRoutes 
   module.exports = teacherRoutes;

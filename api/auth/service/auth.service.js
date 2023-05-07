@@ -1,14 +1,23 @@
+const _ = require('lodash')
 const db = require("../../../base/models");
 const { promisify } = require("util");
 const jwt = require("jsonwebtoken");
+const httpConstant = require("../../../constants/http.constant");
 const NotFoundError = require("../../../base/errors/not-found.error");
+const APIError = require("../../../base/errors/api.error");
+const ValidationHolder = require("../../../utils/validation-holder.utils");
 
-const createToken = id => {
+const createToken = (user) => {
     return jwt.sign({
-        id,
+        id: user.id,
+        username: user.username,
+        roles: user.roles
     },
-        process.env.JWT_SECRET, {
+        process.env.JWT_SECRET_KEY, {
         expiresIn: process.env.JWT_EXPIRES_IN,
+        algorithm: 'HS256',
+        //        audience: config.jwt.audience,
+        issuer: process.env.JWT_ISSUER
     },
     );
 };
@@ -23,7 +32,7 @@ exports.login = async function (username, password) {
     }
 
     // 3) All correct, send jwt to client
-    const token = createToken(user.userId);
+    const token = createToken(user);
 
     // Remove the password from the output
     user.password = undefined;
@@ -39,10 +48,10 @@ exports.signUp = async (dto) => {
 
     const user = await db.models.comUserMst.create(dto);
 
-    const token = createToken(user.id);
+    const token = createToken(user);
 
     user.password = undefined;
-
+    user.token = token;
     return {
         user: user,
         token: token,
@@ -50,60 +59,37 @@ exports.signUp = async (dto) => {
 
 };
 
-exports.verify = async (req, res, next) => {
-    try {
-        // 1) check if the token is there
-        let token;
-        if (
-            req.headers.authorization &&
-            req.headers.authorization.startsWith("Bearer")
-        ) {
-            token = req.headers.authorization.split(" ")[1];
-        }
-        if (!token) {
-            return next(
-                new AppError(
-                    401,
-                    "fail",
-                    "You are not logged in! Please login in to continue",
-                ),
-                req,
-                res,
-                next,
-            );
-        }
-
-        // 2) Verify token
-        const decode = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
-
-        // 3) check if the user is exist (not deleted)
-        const user = await db.models.comUserMst.findById(decode.id);
-        if (!user) {
-            return next(
-                new AppError(401, "fail", "This user is no longer exist"),
-                req,
-                res,
-                next,
-            );
-        }
-
-        req.user = user;
-        next();
-    } catch (err) {
-        next(err);
+exports.verifyToken = async (authorization) => {
+    // 1) check if the token is there
+    let token;
+    if (authorization && authorization.startsWith("Bearer")) {
+        token = authorization.split(" ")[1];
     }
+
+    if (!token) {
+        throw new APIError(httpConstant.UN_AUTHORIZED, 'MSGE00001');
+    }
+
+    // 2) Verify token
+    const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET_KEY);
+
+    if (_.isEmpty(decoded.id) || _.isEmpty(decoded.user)) {
+        throw new APIError(httpConstant.UN_AUTHORIZED, 'MSGE00037', 'Token');
+    }
+    
+    // 3) check if the user is exist (not deleted)
+    const user = await db.models.comUserMst.findOne(decoded.id);
+    if (!user) {
+        throw new APIError(httpConstant.UN_AUTHORIZED, 'MSGE00017', 'user');
+    }
+    return true;
 };
 
 // Authorization check if the user have rights to do this action
 exports.restrictTo = (...roles) => {
     return (req, res, next) => {
         if (!roles.includes(req.user.role)) {
-            return next(
-                new ForbiddenError("You are not allowed to do this action"),
-                req,
-                res,
-                next,
-            );
+            throw new APIError(httpConstant.FORBIDDEN, 'MSGE00002');
         }
         next();
     };

@@ -40,7 +40,6 @@ app.use(async (error, request, response, next) => {
 	await errorHandler.handleError(request, response, error);
 });
 
-
 /*
 process.on('unhandledRejection', (reason, promise) => {
 	throw reason;
