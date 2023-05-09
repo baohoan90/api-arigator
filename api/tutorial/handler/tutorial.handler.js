@@ -1,3 +1,4 @@
+const Pageable = require('../../../utils/pageable.utils');
 const tutorialService = require('../service/tutorial.service');
 
 /**
@@ -6,21 +7,14 @@ const tutorialService = require('../service/tutorial.service');
  * @param {Object} res 
  */
 exports.findAll = (req, res) => {
-    // Perform validation here
-    // buid search condition
-    var condition = { 
+    var condition = {
         //tutorialCode: req.query.tutorialCode,
-        tutorialName : req.query.tutorialName
+        tutorialName: req.query.tutorialName
     };
 
-    tutorialService.findAll(condition)
+    tutorialService.findAll(condition, Pageable.of(req))
         .then(data => {
-        res.send(data);
+            res.send(data);
         })
-        .catch(err => {
-        res.status(500).send({
-            message:
-            err.message || "Some error occurred while retrieving tutorials."
-        });
-    });
+        .catch(error => next(error));
 };

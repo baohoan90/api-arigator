@@ -13,7 +13,7 @@ exports.create = async function (dto) {
 
 
 // Retrieve all Tutorials from the database.
-exports.search = async function (dto, pageable) {
+exports. search = async function (dto, pageable) {
 
     var condition = !_.isEmpty(dto.teacherName) ? {
         teacherName: {

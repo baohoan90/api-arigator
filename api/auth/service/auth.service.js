@@ -9,8 +9,8 @@ const ValidationHolder = require("../../../utils/validation-holder.utils");
 
 const createToken = (user) => {
     return jwt.sign({
-        id: user.id,
-        username: user.username,
+        id: user.userId,
+        username: user.email,
         roles: user.roles
     },
         process.env.JWT_SECRET_KEY, {
@@ -73,12 +73,12 @@ exports.verifyToken = async (authorization) => {
     // 2) Verify token
     const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET_KEY);
 
-    if (_.isEmpty(decoded.id) || _.isEmpty(decoded.user)) {
-        throw new APIError(httpConstant.UN_AUTHORIZED, 'MSGE00037', 'Token');
+    if (decoded.id == null || _.isEmpty(decoded.username)) {
+        throw new APIError(httpConstant.BAD_REQUEST, 'MSGE00037', 'Token');
     }
     
     // 3) check if the user is exist (not deleted)
-    const user = await db.models.comUserMst.findOne(decoded.id);
+    const user = await db.models.comUserMst.findByPk(decoded.id);
     if (!user) {
         throw new APIError(httpConstant.UN_AUTHORIZED, 'MSGE00017', 'user');
     }

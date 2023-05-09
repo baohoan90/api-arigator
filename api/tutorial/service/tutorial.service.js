@@ -1,7 +1,8 @@
 const _ = require("lodash");
 const db = require("../../../base/models");
+const Pageable = require("../../../utils/pageable.utils");
 
-const tstTutorialInfoMst = db.TstTutorialInfoMst; // DAO
+const tstTutorialInfoMst = db.models.tstTutorialInfoMst; // DAO
 const Op = db.Sequelize.Op;
 
 /**
@@ -23,7 +24,7 @@ exports.create = async function (tutorial) {
 /**
  * findAll
  */
-exports.findAll = async function (dto) {
+exports.findAll = async function (dto, pageable) {
 
     var condition = !_.isEmpty(dto.tutorialName) ? {
         tutorialName: {
@@ -31,5 +32,15 @@ exports.findAll = async function (dto) {
         }
     } : null;
 
-    return await tstTutorialInfoMst.findAll({ where: condition });
+    const { limit, offset } = pageable;
+
+    const data = await tstTutorialInfoMst.findAll({
+        where: condition,
+        limit,
+        offset,
+        order: [
+            ['tutorialStartTime', 'DESC']
+        ]
+    });
+    return Pageable.build(pageable, data);
 }
