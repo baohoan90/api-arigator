@@ -3,7 +3,7 @@ const path = require('path');
 
 const i18n = new I18n({
     locales: ['en', 'vn'],
-    defaultLocale: 'en',
+    defaultLocale: 'vn',
     directory: path.join('./', 'locales')
 });
 

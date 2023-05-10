@@ -1,22 +1,24 @@
 const express = require('express');
 const teacherRoutes = express.Router();
+
+// Middlewares
+const logger = require('../../middleware/log.middleware')
 const authentication = require('../../middleware/auth.middleware')
 
-  // or ES6
-  // import { Router as booksRoutes } from 'express';
+// Handler
+const teacherHandlers = require('./handler/teacher.handler');
 
-  // Handlers
-  const teacherHandlers = require('./handler/teacher.handler');
+// Validation
+const { validator } = require('./validator/teacher.validator')
 
 
-  // Create a new Tutorial
-  teacherRoutes.post("/", teacherHandlers.create);
-  
-  // Search all Tutorials
-  teacherRoutes.get("/", authentication.verify, teacherHandlers.search);
 
-  // export teacherRoutes 
-  module.exports = teacherRoutes;
+// chain middleware
+const middlewares = [authentication.verify, logger.logging];
 
-  // or ES6
-  // export default booksRoutes;
+teacherRoutes.post("/", middlewares, validator.validateCreateTeacher(), teacherHandlers.create);
+
+teacherRoutes.get("/", middlewares, teacherHandlers.search);
+
+// export teacherRoutes 
+module.exports = teacherRoutes;

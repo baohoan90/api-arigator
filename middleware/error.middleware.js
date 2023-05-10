@@ -76,7 +76,7 @@ class ErrorHandler {
           return response.status(statusCode).json(this.formatError(newError))
         }
     
-        const unknownError = new APIError('Unknown')
+        const unknownError = APIError.create(500, 'Unknown')
     
         return response.status(statusCode).json(this.formatError(unknownError))
     }

@@ -21,9 +21,9 @@ let validateLogin = () => {
     ];
 }
 
-let validate = {
+let validator = {
     validateRegisterUser: validateRegisterUser,
     validateLogin: validateLogin
 };
 
-module.exports = { validate };
+module.exports = { validator };

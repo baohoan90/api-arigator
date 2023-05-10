@@ -8,7 +8,7 @@ const Op = db.Sequelize.Op;
  * @param {Object} dto 
  */
 exports.create = async function (dto) {
-    return await otrTeacherInfoMst.create(dto);
+    return await db.models.otrTeacherInfoMst.create(dto);
 }
 
 

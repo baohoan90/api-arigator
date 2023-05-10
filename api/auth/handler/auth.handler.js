@@ -13,7 +13,6 @@ const ValidationHolder = require('../../../utils/validation-holder.utils');
 exports.login = (req, res, next) => {
 
     const errors = validationResult(req);
-
     if (!errors.isEmpty()) {
         throw new ValidationError(errors.array());
     }
@@ -39,9 +38,8 @@ exports.login = (req, res, next) => {
  * @param {Object} next
  */
 exports.signUp = (req, res, next) => {
-
+    
     const errors = validationResult(req);
-
     if (!errors.isEmpty()) {
         throw new ValidationError(errors.array());
     }
