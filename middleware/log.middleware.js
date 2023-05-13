@@ -1,7 +1,10 @@
 class Logger {
 
     logging(req, res, next) {
-        console.log(req);
+        var logCnt = 0
+        console.log('logCnt: ' + (logCnt++));
+        console.log('Request Logger: ' + req.url);
+        console.log('Response Logger: ' + res);
         next()
     }
 }

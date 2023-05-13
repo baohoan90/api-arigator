@@ -1,11 +1,11 @@
-const Pageable = require("../../../utils/pageable.utils");
+const Pageable = require("../../utils/pageable.utils");
 
 // Validation 
 const { validationResult } = require('express-validator');
-const ValidationError = require('../../../base/errors/validation.error');
+const ValidationError = require('../../base/errors/validation.error');
 
 // Teacher Service
-const teacherService = require("../service/teacher.service");
+const teacherService = require("./teacher.service");
 
 
 /**

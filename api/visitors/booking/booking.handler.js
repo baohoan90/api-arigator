@@ -1,4 +1,4 @@
-const BookingInfo = require('../dto/booking-info.dto')
+const BookingInfo = require('./dto/booking-info.dto')
 
 /**
  * findLatestNews

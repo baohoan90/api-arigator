@@ -6,7 +6,7 @@ const authentication = require('../../middleware/auth.middleware')
   // import { Router as booksRoutes } from 'express';
 
   // Handlers
-  const tutorialHandlers = require('./handler/tutorial.handler');
+  const tutorialHandlers = require('./tutorial.handler');
 
   // Retrieve all Tutorials
   tutorialRoutes.get("/", authentication.verify, tutorialHandlers.findAll);

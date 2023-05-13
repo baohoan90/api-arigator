@@ -6,10 +6,10 @@ const logger = require('../../middleware/log.middleware')
 const authentication = require('../../middleware/auth.middleware')
 
 // Handler
-const teacherHandlers = require('./handler/teacher.handler');
+const teacherHandlers = require('./teacher.handler');
 
 // Validation
-const { validator } = require('./validator/teacher.validator')
+const { validator } = require('./teacher.validator')
 
 
 

@@ -1,5 +1,5 @@
 const { check, body } = require('express-validator');
-const AppConstant = require('../../../constants/app.constant');
+const AppConstant = require('../../constants/app.constant');
 
 const validateCreateTeacher = () => {
     return [
