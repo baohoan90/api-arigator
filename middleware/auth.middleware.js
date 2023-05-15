@@ -1,4 +1,4 @@
-const authService = require('../api/auth/service/auth.service')
+const authService = require('../api/auth/auth.service')
 
 class Authentication {
 

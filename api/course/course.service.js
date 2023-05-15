@@ -1,7 +1,7 @@
 const _ = require("lodash");
-const db = require("../../../base/models");
-const CourseInfo = require("../models/course-info");
-const sqlTemplate = require("../../../utils/sql-template.utils");
+const db = require("../../base/models");
+const CourseInfo = require("./models/course-info");
+const sqlTemplate = require("../../utils/sql-template.utils");
 
 /**
  * findTutorialByTeacher

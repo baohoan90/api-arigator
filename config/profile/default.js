@@ -11,5 +11,9 @@ module.exports = {
     redis: {
         url: "redis://some-redis-server:6379"
     },
-    log: "info"
+    log: {
+        maxFiles: "1d",
+        level: "info",
+        directory: "logs"
+    }
 };

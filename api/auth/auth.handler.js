@@ -1,8 +1,8 @@
-const authService = require('../service/auth.service');
+const authService = require('./auth.service');
 const { validationResult } = require('express-validator');
 
-const ValidationError = require('../../../base/errors/validation.error');
-const ValidationHolder = require('../../../utils/validation-holder.utils');
+const ValidationError = require('../../base/errors/validation.error');
+const ValidationHolder = require('../../utils/validation-holder.utils');
 
 /**
  * login

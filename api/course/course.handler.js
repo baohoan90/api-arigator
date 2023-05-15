@@ -1,4 +1,4 @@
-const courseService = require('../service/course.service');
+const courseService = require('./course.service');
 
 /**
  * findAll

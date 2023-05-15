@@ -1,5 +1,5 @@
-const Pageable = require('../../../utils/pageable.utils');
-const tutorialService = require('../service/tutorial.service');
+const Pageable = require('../../utils/pageable.utils');
+const tutorialService = require('./tutorial.service');
 
 /**
  * findAll

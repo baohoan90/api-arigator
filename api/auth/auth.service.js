@@ -1,12 +1,12 @@
 const _ = require('lodash')
-const db = require("../../../base/models");
+const db = require("../../base/models");
 const { promisify } = require("util");
 const jwt = require("jsonwebtoken");
-const httpConstant = require("../../../constants/http.constant");
+const httpConstant = require("../../constants/http.constant");
 
-const APIError = require("../../../base/errors/api.error");
-const NotFoundError = require("../../../base/errors/not-found.error");
-const ValidationHolder = require("../../../utils/validation-holder.utils");
+const APIError = require("../../base/errors/api.error");
+const NotFoundError = require("../../base/errors/not-found.error");
+const ValidationHolder = require("../../utils/validation-holder.utils");
 
 const createToken = (user) => {
     return jwt.sign({
@@ -45,6 +45,11 @@ exports.login = async function (username, password) {
 
 };
 
+/**
+ * Register new user
+ * @param {Object} dto 
+ * @returns user + token
+ */
 exports.signUp = async (dto) => {
 
     const user = await db.models.comUserMst.create(dto);

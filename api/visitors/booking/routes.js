@@ -5,7 +5,7 @@ const bookingRoutes = express.Router();
   // import { Router as booksRoutes } from 'express';
 
   // Handlers
-  const bookingHandlers = require('./handler/booking.handler');
+  const bookingHandlers = require('./booking.handler');
 
   // Retrieve all Tutorials
   bookingRoutes.get("/bookings", bookingHandlers.findAll);

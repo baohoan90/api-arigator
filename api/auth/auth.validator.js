@@ -1,5 +1,5 @@
 const { check } = require('express-validator');
-const { AppConstant } = require('../../../constants/app.constant');
+const { AppConstant } = require('../../constants/app.constant');
 
 let validateRegisterUser = () => {
     return [

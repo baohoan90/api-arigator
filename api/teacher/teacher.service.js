@@ -1,6 +1,6 @@
 const _ = require("lodash");
-const db = require("../../../base/models");
-const Pageable = require("../../../utils/pageable.utils");
+const db = require("../../base/models");
+const Pageable = require("../../utils/pageable.utils");
 const Op = db.Sequelize.Op;
 
 /**
