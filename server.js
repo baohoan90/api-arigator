@@ -1,13 +1,13 @@
 const express = require("express");
+const app = express();
+const dotenv = require('dotenv');
+const cors = require("cors");
+const morgan = require("morgan")
 var config = require('./config');
 const bodyParser = require("body-parser");
-const cors = require("cors");
 const errorHandler = require('./middleware/error.middleware')
-
-
-const app = express();
-
-const dotenv = require('dotenv');
+const LoggerFactory = require('./utils/logger.utils')
+const logger = LoggerFactory.get('SERVER');
 
 dotenv.config({
 	path: './config/settings.env'
@@ -30,15 +30,34 @@ app.get("/", (req, res) => {
 	res.json({ message: "Welcome to arigator application." });
 });
 
-require("./routes.js")(app);
+/**
+ * Logging in-comming API request
+ */
+const morganMiddleware = morgan(
+	':method :url :status :res[content-length] - :response-time ms',
+	{
+		stream: {
+			// Configure Morgan to use our custom logger with the http severity
+			write: (message) => logger.info("Response - " + message.trim()),
+		},
+	}
+);
+
+app.use(morganMiddleware);
 
 // Handle Error
 app.use(async (error, request, response, next) => {
+	logger.info('An Error is thrown: ' + error);
+
 	if (!errorHandler.isTrustedError(error)) {
 		next(error);
 	}
 	await errorHandler.handleError(request, response, error);
 });
+
+
+
+require("./routes.js")(app);
 
 /*
 process.on('unhandledRejection', (reason, promise) => {
@@ -56,5 +75,5 @@ process.on('uncaughtException', (error) => {
 // set port, listen for requests
 const PORT = config.port || 8080;
 app.listen(PORT, () => {
-	console.log(`Server is running on port ${PORT}.`);
+	logger.info(`Server is running on port ${PORT}.`);
 });

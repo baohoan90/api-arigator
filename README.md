@@ -10,6 +10,9 @@
     <li style="color: yellow">npm install jsonwebtoken</li>
     <li style="color: yellow">npm install --save express-validator</li>
     <li style="color: yellow">npm install i18n --save</li>
+    <li style="color: yellow">npm i winston --save</li>
+    <li style="color: yellow">npm i morgan --save</li>
+    <li style="color: yellow">npm install winston-daily-rotate-file</li>
 </ul>
 
 ## 3. Tools

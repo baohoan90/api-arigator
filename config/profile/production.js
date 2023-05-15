@@ -8,5 +8,9 @@ module.exports = {
 
     },
     port: 6001,
-    log: "info"
+        log: {
+        maxFiles: "14d",
+        level: "info",
+        directory: "logs"
+    }
 };

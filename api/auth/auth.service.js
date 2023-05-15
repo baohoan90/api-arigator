@@ -45,6 +45,11 @@ exports.login = async function (username, password) {
 
 };
 
+/**
+ * Register new user
+ * @param {Object} dto 
+ * @returns user + token
+ */
 exports.signUp = async (dto) => {
 
     const user = await db.models.comUserMst.create(dto);

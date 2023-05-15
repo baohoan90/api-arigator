@@ -13,7 +13,8 @@ const sequelize = new Sequelize(dbConfig.dbname, dbConfig.user, dbConfig.pass, {
     min: dbConfig.autoOptions.pool.max,
     acquire: dbConfig.autoOptions.pool.acquire,
     idle: dbConfig.autoOptions.pool.idle
-  }
+  },
+  logging: false
 });
 
 const db = {};
