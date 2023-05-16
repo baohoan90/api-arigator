@@ -60,11 +60,12 @@ class ValidationHolder {
      * checkAndThrow
      */
     static checkAndThrow() {
-        if (this.hasError()) {
-            let temps = this._instance.errors;
-            this._instance = null;
-            throw new ValidationError(temps);
+        if (!this.hasError()) {
+            return;
         }
+        let temps = this._instance.errors;
+        this._instance = null;
+        throw new ValidationError(temps);
     }
 }
 
