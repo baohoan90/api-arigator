@@ -7,7 +7,13 @@ const httpConstant = require("../../constants/http.constant");
 const APIError = require("../../base/errors/api.error");
 const NotFoundError = require("../../base/errors/not-found.error");
 const ValidationHolder = require("../../utils/validation-holder.utils");
+const AuthUtils = require('../../utils/auth.utils');
 
+/**
+ * createToken
+ * @param {Object} user 
+ * @returns token
+ */
 const createToken = (user) => {
     return jwt.sign({
         id: user.userId,
@@ -23,12 +29,18 @@ const createToken = (user) => {
     );
 };
 
+/**
+ * login
+ * @param {String} username 
+ * @param {String} password 
+ * @returns User and Token
+ */
 exports.login = async function (username, password) {
     // 1. check if user exist and password is correct
     const user = await db.models.comUserMst.findOne({ where: { email: username } });
 
     // 2. compare encrypted password to DB's password
-    if (!user || user.password !== password) {
+    if (!user || !AuthUtils.verifyPassword(password, user.password)) {
         throw new NotFoundError("MSGE00096");
     }
 
@@ -64,6 +76,11 @@ exports.signUp = async (dto) => {
     }
 };
 
+/**
+ * verifyToken
+ * @param {Object} authorization 
+ * @returns 
+ */
 exports.verifyToken = async (authorization) => {
     // 1) check if the token is there
     let token;

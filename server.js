@@ -1,13 +1,16 @@
 const express = require("express");
+const cors = require("cors");
+const morgan = require('morgan')
+
 const app = express();
 const dotenv = require('dotenv');
-const cors = require("cors");
-const morgan = require("morgan")
-var config = require('./config');
+const config = require('./config');
 const bodyParser = require("body-parser");
 const errorHandler = require('./middleware/error.middleware')
+
 const LoggerFactory = require('./utils/logger.utils')
-const logger = LoggerFactory.get('SERVER');
+const logger = LoggerFactory.get('server');
+
 
 dotenv.config({
 	path: './config/settings.env'
@@ -34,8 +37,7 @@ app.get("/", (req, res) => {
  * Logging in-comming API request
  */
 const morganMiddleware = morgan(
-	':method :url :status :res[content-length] - :response-time ms',
-	{
+	":method :url :status :res[content-length] - :response-time ms", {
 		stream: {
 			// Configure Morgan to use our custom logger with the http severity
 			write: (message) => logger.info("Response - " + message.trim()),
@@ -44,6 +46,8 @@ const morganMiddleware = morgan(
 );
 
 app.use(morganMiddleware);
+
+require("./routes.js")(app);
 
 // Handle Error
 app.use(async (error, request, response, next) => {
@@ -54,10 +58,6 @@ app.use(async (error, request, response, next) => {
 	}
 	await errorHandler.handleError(request, response, error);
 });
-
-
-
-require("./routes.js")(app);
 
 /*
 process.on('unhandledRejection', (reason, promise) => {
